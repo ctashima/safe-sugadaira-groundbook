@@ -1,8 +1,8 @@
 {
-  "name": "SAFE 菅平グラウンドマップ（2025 夏・試用版／3面）",
-  "short_name": "SAFEグラウンドマップ",
-  "display": "standalone",
+  "name": "SAFE菅平グラウンドマップ（試用版/3面）",
+  "short_name": "SAFE菅平",
   "start_url": "./index.html",
+  "display": "standalone",
   "background_color": "#FBFEFF",
   "theme_color": "#135389",
   "icons": [
