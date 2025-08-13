@@ -2,7 +2,7 @@
    Service Worker: オフライン/キャッシュ管理
    - CACHE_NAME を1文字変えると強制更新が走る
    ========================================================= */
-const CACHE_NAME = 'safe-ground-v16'; /* ← 末尾の数字を増やすだけ */
+const CACHE_NAME = 'safe-ground-v17'; /* ← 末尾の数字を増やすだけ */
 
 /* 初回キャッシュ対象（画像は後で個別DLでもOK） */
 const ASSETS = [

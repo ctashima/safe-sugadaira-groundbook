@@ -38,7 +38,7 @@
     <h3>地図・ナビ</h3>
     <p>
       <a class="btn" href="https://www.google.com/maps/search/?api=1&query=菅平41番グラウンド" target="_blank" rel="noopener">地図検索</a>
-      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=菅平高原国際リゾートセンター&destination=菅平41番グラウンド" target="_blank" rel="noopener">センター→目的地</a>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=菅平高原国際リゾートセンター&destination=菅平41番グラウンド" target="_blank" rel="noopener">クリニック→目的地</a>
       <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=菅平41番グラウンド" target="_blank" rel="noopener">現在地→目的地</a>
     </p>
     <div class="note">※リンクはオンライン接続時のみ利用可能です。</div>
@@ -60,12 +60,23 @@
   </div>
 
   <!-- 救急車アクセス図（クリックで拡大：同一タブ） -->
-    <div class="section ems-map">
+   <div class="section">
     <h3>救急車アクセス図</h3>
-    <a class="ems-media zoomable" href="./assets/ems_maps/G41.jpg">
-        <img src="./assets/ems_maps/G41.jpg" alt="救急車アクセス図">
-    </a>
+  <!-- クリックで原寸を開く（同じファイルへ）。ページ内にも常時表示 -->
+        <a class="photo" id="emsLink" href="./assets/ems_maps/G41.jpg" target="_blank" rel="noopener">
+            <img id="emsImg" src="./assets/ems_maps/G41.jpg" alt="救急車アクセス図" loading="lazy"
+                onerror="(function(img){
+                    // .jpgが無ければ.pngへ、.pngが無ければ.jpgへ自動切替
+                    var s = img.src;
+                    if (s.endsWith('.jpg')) { img.src = s.replace('.jpg','.png'); }
+                    else if (s.endsWith('.png')) { img.src = s.replace('.png','.jpg'); }
+                    // aタグのリンク先も同じに合わせる
+                    var a = document.getElementById('emsLink');
+                    if (a) a.href = img.src;
+                })(this)">    
+        </a>
     </div>
+
 
     <!-- 写真（入口/駐車：クリックで拡大） -->
     <div class="section photos">
