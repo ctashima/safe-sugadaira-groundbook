@@ -1,5 +1,14 @@
 
 :root{--bg:#FBFEFF;--fg:#30343A;--muted:#64748B;--card:#FFFFFF;--border:#CBD5E1;--accent:#135389;}
+/* SAFEロゴ準拠テーマ（?theme=safe で有効） */
+:root[data-theme="safe"]{
+  --bg:#FFFFFF;         /* 背景 */
+  --fg:#111111;         /* 文字色（濃いグレー） */
+  --muted:#4B5563;      /* 補助テキスト */
+  --card:#FFFFFF;       /* カード背景 */
+  --border:#E5E7EB;     /* 罫線色 */
+  --accent:#C62828;     /* SAFE Red（ロゴ赤） */
+}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
 .container{max-width:1080px;margin:20px auto;padding:12px}

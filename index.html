@@ -1,17 +1,37 @@
 <!doctype html>
 <html lang="ja">
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="manifest" href="./manifest.webmanifest"/>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
-<link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
-<meta name="theme-color" content="#C62828">
-<link rel="stylesheet" href="./style.css"/>
-<title>SAFE菅平グラウンドマップ（試用版/3面）</title>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./style.css"/>
+
+  <!-- Favicon（置いていれば表示されます） -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
+  <meta name="theme-color" content="#C62828" id="meta-theme-color">
+
+  <title>SAFE菅平グラウンドマップ（試用版/3面）</title>
+
+  <!-- テーマ初期化 + theme-color の自動切替 -->
+  <script>
+  (function(){
+    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
+    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
+    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
+  })();
+  </script>
+</head>
 <body>
 <div class="container">
-  <div class="navbar"><a class="btn" href="./map.html">地図表示へ</a></div>
+  <div class="navbar">
+    <a class="btn" href="./map.html">地図表示へ</a>
+    <a class="btn" href="?">標準テーマ</a>
+    <a class="btn" href="?theme=safe">赤テーマ</a>
+  </div>
+
   <h1>SAFE菅平グラウンドマップ（試用版/3面）</h1>
 
   <div class="search"><input id="q" placeholder="例：83番 / 所有者名 / ゾーン色 で検索…"></div>

@@ -1,18 +1,35 @@
 <!doctype html>
 <html lang="ja">
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="stylesheet" href="./style.css"/>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
-<link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
-<meta name="theme-color" content="#C62828">
-<title>地図表示</title>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="./style.css"/>
+
+  <!-- Favicon（任意） -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
+  <meta name="theme-color" content="#C62828" id="meta-theme-color">
+
+  <title>地図表示</title>
+
+  <!-- テーマ初期化 + theme-color の自動切替 -->
+  <script>
+  (function(){
+    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
+    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
+    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
+  })();
+  </script>
+</head>
 <body>
 <div class="container">
   <div class="navbar">
     <a class="btn" href="./index.html">← トップページへ</a>
     <a class="btn" id="editBtn" href="#">編集モードをオン</a>
+    <a class="btn" href="?">標準テーマ</a>
+    <a class="btn" href="?theme=safe">赤テーマ</a>
   </div>
   <h1>地図表示</h1>
   <p class="note">丸（41/83/94）をクリックすると各グラウンドの詳細へ移動します。</p>
@@ -35,14 +52,47 @@
   const btn=document.getElementById('editBtn');
   let edit=false;
 
+  /* 番号→ゾーンの対応（必要に応じて追加） */
+  const zoneByNo = { 41:'桃', 83:'青', 94:'桃' };
+
+  /* デフォルト座標（assets/markers.json が無い/読めない場合に使用） */
   const defaultMarkers = [
     {"no":41,"x_percent":67.9,"y_percent":49.9},
     {"no":83,"x_percent":38.5,"y_percent":52.1},
-    {"no":94,"x_percent":69.5,"y_percent":49.4}
+    {"no":94,"x_percent":69.5,"y_percent":49.4,"dy":-1.6} /* 例：94を少し上にずらす */
   ];
 
   function addMarker(m){
-    if(m.x_percent==null||m.y_percent==null) return;
     const a=document.createElement('a'); a.className='marker';
     a.href=`./ground_G${String(m.no).padStart(2,'0')}.html`; a.textContent=m.no;
-    a.style.left=m.x_percent+'%'; a.style.top=m.y_percent
+    a.dataset.zone = zoneByNo[m.no] || '';
+    const dx=m.dx||0, dy=m.dy||0;
+    a.style.left=(m.x_percent+dx)+'%'; a.style.top=(m.y_percent+dy)+'%';
+    wrap.appendChild(a);
+  }
+
+  async function loadMarkers(){
+    try{
+      const r=await fetch('./assets/markers.json'); if(!r.ok) throw 0;
+      return await r.json();
+    }catch(e){ return defaultMarkers; }
+  }
+  (await loadMarkers()).forEach(addMarker);
+
+  btn.addEventListener('click', e=>{
+    e.preventDefault(); edit=!edit;
+    btn.textContent = edit ? '編集モードをオフ' : '編集モードをオン';
+    box.textContent = edit ? '編集モード：オン（地図をクリックすると座標行がここに追記されます）' : '編集モード：オフ';
+  });
+
+  function pct(x,t){ return Math.max(0,Math.min(100,(x/t)*100)); }
+  img.addEventListener('click', e=>{
+    if(!edit) return;
+    const r=img.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;
+    const xp=pct(x,r.width).toFixed(1), yp=pct(y,r.height).toFixed(1);
+    const line=`{ "no": ??, "x_percent": ${xp}, "y_percent": ${yp} }`;
+    box.textContent += '\n'+ line +'  ← assets/markers.json に追記（必要なら "dx":±?,"dy":±? も）';
+  });
+})();
+</script>
+</body></html>
