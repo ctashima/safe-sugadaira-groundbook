@@ -69,24 +69,92 @@
     <div class="note">コメント例：勾配あり など</div>
   </div>
 
-  <!-- 救急車アクセス図（大きく見たい時はクリックで原寸） -->
-  <div class="section">
+  <!-- 救急車アクセス図（クリックで拡大：同一タブ） -->
+    <div class="section ems-map">
     <h3>救急車アクセス図</h3>
-    <a class="photo" href="./assets/ems_maps/G41.jpg" target="_blank" rel="noopener">
-      <img src="./assets/ems_maps/G41.jpg" alt="救急車アクセス図">
+    <a class="ems-media zoomable" href="./assets/ems_maps/G41.jpg">
+        <img src="./assets/ems_maps/G41.jpg" alt="救急車アクセス図">
     </a>
-  </div>
+    </div>
 
-  <!-- 写真（入口/駐車） -->
-  <div class="section photos">
+    <!-- 写真（入口/駐車：クリックで拡大） -->
+    <div class="section photos">
     <h3>写真</h3>
     <div class="grid2">
-      <span class="photo"><img src="./assets/photos/G41_entrance.jpg" alt="入口"></span>
-      <span class="photo"><img src="./assets/photos/G41_parking.jpg" alt="駐車"></span>
+        <a class="photo zoomable" href="./assets/photos/G41_entrance.jpg">
+        <img src="./assets/photos/G41_entrance.jpg" alt="入口">
+        </a>
+        <a class="photo zoomable" href="./assets/photos/G41_parking.jpg">
+        <img src="./assets/photos/G41_parking.jpg" alt="駐車">
+        </a>
     </div>
-  </div>
+    </div>
 
   <footer class="smallcopy">© 2025 SAFEプロジェクト</footer>
 </div>
 <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');</script>
+<script>
+/* 画像拡大ビューア（同一タブ、戻るで閉じる） */
+(function(){
+  // オーバーレイ DOM を生成
+  const overlay = document.createElement('div');
+  overlay.className = 'viewer';
+  overlay.innerHTML = `
+    <div class="toolbar">
+      <a href="#" class="btn" id="viewerBack">← 戻る</a>
+    </div>
+    <img alt="拡大表示">
+  `;
+  document.body.appendChild(overlay);
+
+  const imgEl  = overlay.querySelector('img');
+  const backEl = overlay.querySelector('#viewerBack');
+
+  // 開く
+  function openViewer(src){
+    imgEl.src = src;
+    overlay.classList.add('open');
+    // 戻るボタン対応：履歴を1件積む
+    history.pushState({ viewer:true }, '', '#viewer');
+  }
+
+  // 閉じる（履歴を戻す）
+  function closeViewer(){
+    overlay.classList.remove('open');
+    // すでに #viewer が付いているときだけ戻る
+    if (location.hash === '#viewer') {
+      history.back();
+    }
+  }
+
+  // クリック対象をバインド（.zoomable か、.photo内のimg）
+  function bindZoomables(){
+    document.querySelectorAll('a.zoomable').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const href = a.getAttribute('href');
+        if (href) openViewer(href);
+      });
+    });
+    document.querySelectorAll('.photo img').forEach(img=>{
+      if (img.closest('a.zoomable')) return; // すでにアンカーにしてある場合は不要
+      img.style.cursor='zoom-in';
+      img.addEventListener('click', ()=> openViewer(img.src));
+    });
+  }
+
+  // イベント
+  backEl.addEventListener('click', (e)=>{ e.preventDefault(); closeViewer(); });
+  // 背景クリックでも閉じる（画像クリックでは閉じない）
+  overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeViewer(); });
+  // 端末の戻るボタンで閉じる
+  window.addEventListener('popstate', (e)=>{
+    if (!e.state || !e.state.viewer) {
+      overlay.classList.remove('open');
+    }
+  });
+
+  bindZoomables();
+})();
+</script>
 </body></html>

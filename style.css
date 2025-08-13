@@ -99,3 +99,36 @@ a.btn:hover{opacity:.9}
 
 /* フッタ */
 footer.smallcopy{margin-top:20px;color:#6b7280;font-size:12px}
+/* ==== EMSアクセス図を16:9で統一。画像はトリミングせず全体表示（contain） ==== */
+.ems-map { margin-top: 12px; }
+.ems-media {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;       /* レターボックス部の色 */
+  overflow: hidden;
+}
+.ems-media::before { content: ''; display: block; padding-top: 56.25%; } /* 16:9 */
+.ems-media > img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: contain; display: block;   /* 全体表示。大きく見せたいなら cover に */
+}
+
+/* ==== 画像拡大用ライトボックス（同一タブ） ==== */
+.viewer{
+  position:fixed; inset:0; z-index:9999;
+  background: rgba(0,0,0,.88);
+  display:none; align-items:center; justify-content:center;
+}
+.viewer.open{ display:flex; }
+.viewer img{
+  max-width:96vw; max-height:86vh; object-fit:contain;
+  border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.4);
+  background:#000;
+}
+.viewer .toolbar{
+  position:fixed; top:12px; left:12px; right:12px;
+  display:flex; gap:8px; justify-content:space-between; align-items:center;
+}
+.viewer .btn{ border:1px solid var(--border); } /* 既存 .btn を流用 */
