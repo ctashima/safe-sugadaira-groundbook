@@ -4,41 +4,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="manifest" href="./manifest.webmanifest"/>
 <link rel="stylesheet" href="./style.css"/>
-<title>SAFE 菅平グラウンドマップ（2025 夏・試用版／3面）</title>
+<title>SAFE菅平グラウンドマップ（試用版/3面）</title>
 <body>
 <div class="container">
-  <div class="navbar">
-    <a class="btn" href="./map.html">地図表示へ</a>
-  </div>
-  <h1>SAFE 菅平グラウンドマップ（2025 夏・試用版／3面）</h1>
-  <div class="search">
-    <input id="q" placeholder="例：83番 / 所有者名 / ゾーン色 で検索…" />
-  </div>
+  <div class="navbar"><a class="btn" href="./map.html">地図表示へ</a></div>
+  <h1>SAFE菅平グラウンドマップ（試用版/3面）</h1>
+
+  <div class="search"><input id="q" placeholder="例：83番 / 所有者名 / ゾーン色 で検索…"></div>
+
   <div id="grid" class="grid">
-    <a class="card" href="./ground_G41.html" data-keywords="41 桃 菅平国際ホテルベルニナ">
-      <div style="font-size:clamp(18px,3vw,20px);margin:6px 0"><strong>第41番グラウンド</strong></div>
+    <a class="card" href="./ground_G41.html">
+      <div class="title">第41番グラウンド</div>
       <div class="small">桃　菅平国際ホテルベルニナ　車約 3分</div>
     </a>
-    <a class="card" href="./ground_G83.html" data-keywords="83 青 山光館">
-      <div style="font-size:clamp(18px,3vw,20px);margin:6px 0"><strong>第83番グラウンド</strong></div>
+    <a class="card" href="./ground_G83.html">
+      <div class="title">第83番グラウンド</div>
       <div class="small">青　山光館　車約 4分</div>
     </a>
-    <a class="card" href="./ground_G94.html" data-keywords="94 桃 菅平国際ホテルベルニナ">
-      <div style="font-size:clamp(18px,3vw,20px);margin:6px 0"><strong>第94番グラウンド</strong></div>
+    <a class="card" href="./ground_G94.html">
+      <div class="title">第94番グラウンド</div>
       <div class="small">桃　菅平国際ホテルベルニナ　車約 4分</div>
-    </a></div>
+    </a>
+  </div>
+
   <footer class="smallcopy">© 2025 SAFEプロジェクト</footer>
 </div>
 <script>
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
-const q=document.getElementById('q'); const grid=document.getElementById('grid');
-q.addEventListener('input', ()=>{
-  const val=q.value.toLowerCase().trim();
-  Array.from(grid.children).forEach(card=>{
-    const kw=card.getAttribute('data-keywords')||'';
-    card.style.display=(kw.indexOf(val)>=0)?'':'none';
-  });
+const q=document.getElementById('q'), grid=document.getElementById('grid');
+q.addEventListener('input', ()=>{ const v=q.value.toLowerCase();
+  [...grid.children].forEach(c=>{ c.style.display = c.textContent.toLowerCase().includes(v)?'':'none'; });
 });
 </script>
-</body>
-</html>
+</body></html>

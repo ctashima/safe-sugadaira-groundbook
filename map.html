@@ -8,13 +8,20 @@
 <div class="container">
   <div class="navbar">
     <a class="btn" href="./index.html">← トップページへ</a>
+    <a class="btn" id="editBtn" href="#">編集モードをオン</a>
   </div>
   <h1>地図表示</h1>
+  <p class="note">丸（41/83/94）をクリックすると各グラウンドの詳細へ移動します。</p>
+
   <div class="map-wrap" id="mapWrap">
-    <img id="mapImg" alt="地図" src="./assets/sugadaira_map.jpg">
+    <img id="mapImg" alt="地図" src="./assets/sugadaira_map.jpg"
+         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,\
+         &lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 675%22&gt;\
+         &lt;rect width=%22100%25%22 height=%22100%25%22 fill=%22#f2f4f8%22/&gt;\
+         &lt;text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22\
+         fill=%22#64748B%22 font-size=%2240%22&gt;assets/sugadaira_map.jpg を設置してください&lt;/text&gt;&lt;/svg&gt;';">
   </div>
-  <div class="coords" id="coordsBox">編集モード：オフ（下のボタンでオン）</div>
-  <div class="navbar"><a class="btn" id="editBtn" href="#">編集モードをオン</a></div>
+  <div class="coords" id="coordsBox">編集モード：オフ（オンにするとクリック座標がここに表示されます）</div>
 </div>
 <script>
 (async () => {
@@ -24,33 +31,14 @@
   const btn=document.getElementById('editBtn');
   let edit=false;
 
-  const defaultMarkers=[
+  const defaultMarkers = [
     {"no":41,"x_percent":67.9,"y_percent":49.9},
     {"no":83,"x_percent":38.5,"y_percent":52.1},
     {"no":94,"x_percent":69.5,"y_percent":49.4}
   ];
 
-  function addMarker(m){ if(m.x_percent==null||m.y_percent==null) return;
+  function addMarker(m){
+    if(m.x_percent==null||m.y_percent==null) return;
     const a=document.createElement('a'); a.className='marker';
     a.href=`./ground_G${String(m.no).padStart(2,'0')}.html`; a.textContent=m.no;
-    a.style.left=m.x_percent+'%'; a.style.top=m.y_percent+'%'; wrap.appendChild(a); }
-
-  async function loadMarkers(){
-    try{ const r=await fetch('./assets/markers.json'); if(r.ok){ return await r.json(); } }catch(e){}
-    return defaultMarkers;
-  }
-  (await loadMarkers()).forEach(addMarker);
-
-  btn.addEventListener('click',e=>{ e.preventDefault(); edit=!edit; btn.textContent=edit?'編集モードをオフ':'編集モードをオン';
-    box.textContent=edit?'編集モード：オン（地図をクリックすると座標行がここに追記されます）':'編集モード：オフ'; });
-  function pct(x,t){ return Math.max(0,Math.min(100,(x/t)*100)); }
-  img.addEventListener('click',e=>{ if(!edit) return;
-    const r=img.getBoundingClientRect(); const x=e.clientX-r.left, y=e.clientY-r.top;
-    const xp=pct(x,r.width).toFixed(1), yp=pct(y,r.height).toFixed(1);
-    const line=`{ "no": ??, "x_percent": ${xp}, "y_percent": ${yp} }`;
-    box.textContent+='\n'+line+'  ←  assets/markers.json に追記';
-  });
-})();
-</script>
-</body>
-</html>
+    a.style.left=m.x_percent+'%'; a.style.top=m.y_percent
