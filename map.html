@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#135389" id="meta-theme-color">
   <link rel="stylesheet" href="./style.css"/>
 
   <!-- Favicon（任意） -->
@@ -13,15 +14,6 @@
 
   <title>地図表示</title>
 
-  <!-- テーマ初期化 -->
-  <script>
-  (function(){
-    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
-    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
-    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
-    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
-  })();
-  </script>
 </head>
 <body>
 <div class="container">

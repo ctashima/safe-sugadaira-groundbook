@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./style.css"/>
-
+  <meta name="theme-color" content="#135389" id="meta-theme-color">
+  
   <!-- Favicon（任意） -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
@@ -14,15 +15,7 @@
 
   <title>第41番グラウンド</title>
 
-  <!-- テーマ初期化 + theme-color 切替 -->
-  <script>
-  (function(){
-    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
-    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
-    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
-    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
-  })();
-  </script>
+  
 </head>
 <body>
 <div class="container">

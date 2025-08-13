@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#135389" id="meta-theme-color">
 
   <!-- PWA/スタイル -->
   <link rel="manifest" href="./manifest.webmanifest"/>
@@ -16,15 +17,6 @@
 
   <title>SAFE菅平グラウンドマップ（試用版/3面）</title>
 
-  <!-- テーマ初期化 + theme-color 切替（?theme=safe で赤系） -->
-  <script>
-  (function(){
-    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
-    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
-    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
-    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
-  })();
-  </script>
 </head>
 <body>
 <div class="container">
