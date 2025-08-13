@@ -13,7 +13,7 @@
 
   <title>地図表示</title>
 
-  <!-- テーマ初期化 + theme-color の自動切替 -->
+  <!-- テーマ初期化 -->
   <script>
   (function(){
     const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
@@ -34,16 +34,20 @@
   <h1>地図表示</h1>
   <p class="note">丸（41/83/94）をクリックすると各グラウンドの詳細へ移動します。</p>
 
+  <!-- 地図画像（未設置時はSVGの案内表示） -->
   <div class="map-wrap" id="mapWrap">
     <img id="mapImg" alt="地図" src="./assets/sugadaira_map.jpg"
-         onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,\
-         &lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 675%22&gt;\
-         &lt;rect width=%22100%25%22 height=%22100%25%22 fill=%22#f2f4f8%22/&gt;\
-         &lt;text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22\
-         fill=%22#64748B%22 font-size=%2240%22&gt;assets/sugadaira_map.jpg を設置してください&lt;/text&gt;&lt;/svg&gt;';">
+      onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,\
+      &lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 675%22&gt;\
+      &lt;rect width=%22100%25%22 height=%22100%25%22 fill=%22#f2f4f8%22/&gt;\
+      &lt;text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22\
+      fill=%22#64748B%22 font-size=%2240%22&gt;assets/sugadaira_map.jpg を設置してください&lt;/text&gt;&lt;/svg&gt;';">
   </div>
+
+  <!-- 座標ログ（編集モード時にクリック結果を追記） -->
   <div class="coords" id="coordsBox">編集モード：オフ（オンにするとクリック座標がここに表示されます）</div>
 </div>
+
 <script>
 (async () => {
   const wrap=document.getElementById('mapWrap');
@@ -52,25 +56,27 @@
   const btn=document.getElementById('editBtn');
   let edit=false;
 
-  /* 番号→ゾーンの対応（必要に応じて追加） */
+  /* 番号→ゾーンの対応（必要に応じて追加/変更） */
   const zoneByNo = { 41:'桃', 83:'青', 94:'桃' };
 
-  /* デフォルト座標（assets/markers.json が無い/読めない場合に使用） */
+  /* assets/markers.json が読めなかった時に使うフォールバック */
   const defaultMarkers = [
     {"no":41,"x_percent":67.9,"y_percent":49.9},
     {"no":83,"x_percent":38.5,"y_percent":52.1},
-    {"no":94,"x_percent":69.5,"y_percent":49.4,"dy":-1.6} /* 例：94を少し上にずらす */
+    {"no":94,"x_percent":69.5,"y_percent":49.4,"dy":-1.6} /* 94が重なる場合の微オフセット例 */
   ];
 
+  /* マーカーを追加（dx/dyで微オフセット%可能） */
   function addMarker(m){
     const a=document.createElement('a'); a.className='marker';
     a.href=`./ground_G${String(m.no).padStart(2,'0')}.html`; a.textContent=m.no;
-    a.dataset.zone = zoneByNo[m.no] || '';
+    a.dataset.zone = zoneByNo[m.no] || '';             // ゾーン色付与
     const dx=m.dx||0, dy=m.dy||0;
     a.style.left=(m.x_percent+dx)+'%'; a.style.top=(m.y_percent+dy)+'%';
     wrap.appendChild(a);
   }
 
+  /* markers.json を読む（無ければ defaultMarkers） */
   async function loadMarkers(){
     try{
       const r=await fetch('./assets/markers.json'); if(!r.ok) throw 0;
@@ -79,13 +85,13 @@
   }
   (await loadMarkers()).forEach(addMarker);
 
+  /* 編集モード: クリック座標を%で出力（assets/markers.json 追記用） */
   btn.addEventListener('click', e=>{
     e.preventDefault(); edit=!edit;
     btn.textContent = edit ? '編集モードをオフ' : '編集モードをオン';
     box.textContent = edit ? '編集モード：オン（地図をクリックすると座標行がここに追記されます）' : '編集モード：オフ';
   });
-
-  function pct(x,t){ return Math.max(0,Math.min(100,(x/t)*100)); }
+  const pct=(x,t)=>Math.max(0,Math.min(100,(x/t)*100));
   img.addEventListener('click', e=>{
     if(!edit) return;
     const r=img.getBoundingClientRect(), x=e.clientX-r.left, y=e.clientY-r.top;

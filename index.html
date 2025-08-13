@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!-- PWA/スタイル -->
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./style.css"/>
 
-  <!-- Favicon（置いていれば表示されます） -->
+  <!-- Favicon（任意：assets/icons/ に配置） -->
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
   <link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
@@ -14,7 +16,7 @@
 
   <title>SAFE菅平グラウンドマップ（試用版/3面）</title>
 
-  <!-- テーマ初期化 + theme-color の自動切替 -->
+  <!-- テーマ初期化 + theme-color 切替（?theme=safe で赤系） -->
   <script>
   (function(){
     const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
@@ -26,6 +28,8 @@
 </head>
 <body>
 <div class="container">
+
+  <!-- ナビ（地図 & テーマ切替） -->
   <div class="navbar">
     <a class="btn" href="./map.html">地図表示へ</a>
     <a class="btn" href="?">標準テーマ</a>
@@ -34,8 +38,10 @@
 
   <h1>SAFE菅平グラウンドマップ（試用版/3面）</h1>
 
+  <!-- 検索（テキスト一致フィルタ） -->
   <div class="search"><input id="q" placeholder="例：83番 / 所有者名 / ゾーン色 で検索…"></div>
 
+  <!-- カードリスト -->
   <div id="grid" class="grid">
     <a class="card" href="./ground_G41.html">
       <div class="title">第41番グラウンド</div>
@@ -53,6 +59,8 @@
 
   <footer class="smallcopy">© 2025 SAFEプロジェクト</footer>
 </div>
+
+<!-- SW登録 + 検索ロジック -->
 <script>
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 const q=document.getElementById('q'), grid=document.getElementById('grid');

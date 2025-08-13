@@ -1,17 +1,5 @@
 [
-  {
-    "no": 41,
-    "x_percent": 67.9,
-    "y_percent": 49.9
-  },
-  {
-    "no": 83,
-    "x_percent": 38.5,
-    "y_percent": 52.1
-  },
-  {
-    "no": 94,
-    "x_percent": 69.5,
-    "y_percent": 49.4
-  }
+  { "no": 41, "x_percent": 67.9, "y_percent": 49.9 },
+  { "no": 83, "x_percent": 38.5, "y_percent": 52.1 },
+  { "no": 94, "x_percent": 69.5, "y_percent": 49.4, "dy": -1.6 }
 ]

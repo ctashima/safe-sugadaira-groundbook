@@ -1,11 +1,98 @@
-<!doctype html><html lang='ja'><meta charset='utf-8'/><meta name='viewport' content='width=device-width, initial-scale=1'/>
-<link rel='manifest' href='./manifest.webmanifest'/>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
-<link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
-<meta name="theme-color" content="#C62828">
-<link rel='stylesheet' href='./style.css'/>
-<title>第94番グラウンド - SAFE 菅平グラウンド台帳</title><body><div class='container'><div class='navbar'><a class='btn' href='./index.html'>← トップページへ</a><a class='btn' href='./map.html'>地図表示へ</a></div><h1>第94番グラウンド</h1><div class='kv'><div class="chip">ゾーン：桃</div>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!-- PWA/スタイル -->
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./style.css"/>
+
+  <!-- ファビコン（assets/icons/ に配置していれば表示されます） -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+  <link rel="apple-touch-icon" href="assets/icons/favicon-180.png">
+  <meta name="theme-color" content="#C62828" id="meta-theme-color">
+
+  <title>第94番グラウンド</title>
+
+  <!-- テーマ初期化 + theme-color 切替（?theme=safe で赤系） -->
+  <script>
+  (function(){
+    const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
+    if (isSafe) document.documentElement.setAttribute('data-theme','safe');
+    const meta = document.querySelector('meta[name="theme-color"]') || document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', isSafe ? '#C62828' : '#135389');
+  })();
+  </script>
+</head>
+<body>
+<div class="container">
+
+  <!-- ナビ（戻る/地図/テーマ切替） -->
+  <div class="navbar">
+    <a class="btn" href="./index.html">← トップページへ</a>
+    <a class="btn" href="./map.html">地図表示へ</a>
+    <a class="btn" href="?">標準テーマ</a>
+    <a class="btn" href="?theme=safe">赤テーマ</a>
+  </div>
+
+  <h1>第94番グラウンド</h1>
+
+  <!-- ゾーン/所有者/目安（順番固定） -->
+  <div class="kv">
+    <div class="chip">ゾーン：桃</div>
     <div class="chip">所有者：菅平国際ホテルベルニナ</div>
-    <div class="chip">目安：車約 4分</div></div><div class='section'><h3>現地メモ</h3><p>急な坂の下</p></div><div class='section'><h3>地図・ナビ</h3><p><a class='btn' href='https://www.google.com/maps/search/?api=1&query=菅平94番グラウンド' target='_blank' rel='noopener noreferrer'>地図検索</a><a class='btn' href='https://www.google.com/maps/dir/?api=1&origin=菅平高原国際リゾートセンター&destination=菅平94番グラウンド' target='_blank' rel='noopener noreferrer'>センター→目的地</a><a class='btn' href='https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=菅平94番グラウンド' target='_blank' rel='noopener noreferrer'>現在地→目的地</a></p><div class='note'>※リンクはオンライン接続時のみ利用可能です。</div></div><div class='section photos'><h3>写真</h3><div class='list'><div class='photo ph' data-src='./assets/photos/G94_entrance.jpg'>入口</div><div class='photo ph' data-src='./assets/photos/G94_parking.jpg'>駐車</div></div></div><footer class='smallcopy'>© 2025 SAFEプロジェクト</footer></div><script>if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');document.querySelectorAll('.ph').forEach(d=>{const src=d.dataset.src; const img=new Image();
-img.onload=()=>{d.style.backgroundImage=`url('${src}')`; d.classList.add('has');}; img.src=src;});</script></body></html>
+    <div class="chip">目安：車約 4分</div>
+  </div>
+
+  <!-- 現地メモ（推奨到達ルート + 駐車/転回/注意点の要約） -->
+  <div class="section">
+    <h3>現地メモ</h3>
+    <p>南側からの進入がスムーズ。雨天時は路面ぬかるみ注意。</p>
+  </div>
+
+  <!-- 地図・ナビ（オンライン専用リンク） -->
+  <div class="section">
+    <h3>地図・ナビ</h3>
+    <p>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=菅平94番グラウンド" target="_blank" rel="noopener">地図検索</a>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=菅平高原国際リゾートセンター&destination=菅平94番グラウンド" target="_blank" rel="noopener">センター→目的地</a>
+      <a class="btn" href="https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=菅平94番グラウンド" target="_blank" rel="noopener">現在地→目的地</a>
+    </p>
+    <div class="note">※リンクはオンライン接続時のみ利用可能です。</div>
+  </div>
+
+  <!-- 救急車・搬送可否（将来: CSV/JSON連携で自動化予定） -->
+  <div class="section">
+    <h3>救急車・搬送可否</h3>
+    <div class="badges">
+      <div class="badge">救急車：未設定</div>
+      <div class="badge">ストレッチャー：未設定</div>
+    </div>
+    <div class="note">コメント例：入口の幅員、勾配、転回スペース、施錠有無 など</div>
+  </div>
+
+  <!-- 救急車アクセス図（クリックで原寸表示） -->
+  <div class="section">
+    <h3>救急車アクセス図</h3>
+    <a class="photo" href="./assets/ems_maps/G94.jpg" target="_blank" rel="noopener">
+      <img src="./assets/ems_maps/G94.jpg" alt="救急車アクセス図">
+    </a>
+  </div>
+
+  <!-- 写真（入口/駐車） -->
+  <div class="section photos">
+    <h3>写真</h3>
+    <div class="grid2">
+      <span class="photo"><img src="./assets/photos/G94_entrance.jpg" alt="入口"></span>
+      <span class="photo"><img src="./assets/photos/G94_parking.jpg" alt="駐車"></span>
+    </div>
+  </div>
+
+  <footer class="smallcopy">© 2025 SAFEプロジェクト</footer>
+</div>
+
+<!-- SW登録 -->
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');</script>
+</body></html>

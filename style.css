@@ -1,37 +1,101 @@
 
-:root{--bg:#FBFEFF;--fg:#30343A;--muted:#64748B;--card:#FFFFFF;--border:#CBD5E1;--accent:#135389;}
-/* SAFEロゴ準拠テーマ（?theme=safe で有効） */
-:root[data-theme="safe"]{
-  --bg:#FFFFFF;         /* 背景 */
-  --fg:#111111;         /* 文字色（濃いグレー） */
-  --muted:#4B5563;      /* 補助テキスト */
-  --card:#FFFFFF;       /* カード背景 */
-  --border:#E5E7EB;     /* 罫線色 */
-  --accent:#C62828;     /* SAFE Red（ロゴ赤） */
+/* =========================================================
+   SAFE GroundOps UI – Base Styles
+   - 標準テーマ（青系）
+   - 赤系 SAFE ロゴ準拠テーマ（?theme=safe で適用）
+   - レイアウト/カード/検索/写真/地図マーカー
+   ========================================================= */
+
+/* ---- 標準テーマ（青系） ---- */
+:root{
+  --bg:#FBFEFF;      /* 背景色 */
+  --fg:#30343A;      /* 文字色 */
+  --muted:#64748B;   /* 補助テキスト色 */
+  --card:#FFFFFF;    /* カード背景 */
+  --border:#CBD5E1;  /* 枠線 */
+  --accent:#135389;  /* 強調色（ボタン等） */
 }
+
+/* ---- SAFE ロゴ準拠テーマ（赤系）: URLに ?theme=safe で適用 ---- */
+:root[data-theme="safe"]{
+  --bg:#FFFFFF;
+  --fg:#111111;
+  --muted:#4B5563;
+  --card:#FFFFFF;
+  --border:#E5E7EB;
+  --accent:#C62828;   /* SAFE Red */
+}
+
+/* ---- ベース ---- */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+
+/* ---- コンテナ ---- */
 .container{max-width:1080px;margin:20px auto;padding:12px}
+
+/* 見出し */
 h1{font-size:clamp(22px,3.6vw,34px);margin:0 0 12px}
 .section h3{margin:14px 0 6px;font-size:clamp(16px,2.6vw,20px)}
-a.btn{display:inline-block;margin-top:8px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;color:#fff;background:var(--accent);text-decoration:none}
+
+/* ボタン */
+a.btn{display:inline-block;margin-top:8px;padding:10px 12px;border:1px solid var(--border);
+  border-radius:10px;color:#fff;background:var(--accent);text-decoration:none}
 a.btn:hover{opacity:.9}
 .navbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+
+/* 情報チップ（ゾーン/所有者/目安） */
 .kv{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 12px}
-.kv .chip{background:#f8fafc;border:1px solid var(--border);padding:6px 10px;border-radius:9999px;font-size:clamp(12px,2.2vw,14px);color:#334155}
+.kv .chip{background:#f8fafc;border:1px solid var(--border);padding:6px 10px;border-radius:9999px;
+  font-size:clamp(12px,2.2vw,14px);color:#334155}
+
+/* 補助テキスト */
 .note{color:var(--muted);font-size:clamp(12px,2.2vw,13px)}
+
+/* トップのカードグリッド */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.04); text-decoration:none; color:inherit;}
+.card{display:block;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;
+  box-shadow:0 2px 6px rgba(0,0,0,.04);text-decoration:none;color:inherit}
+.card .title{font-size:clamp(18px,3vw,20px);margin:6px 0;font-weight:700}
 .card .small{color:var(--muted);font-size:clamp(13px,2.4vw,15px)}
+
+/* 検索ボックス */
 .search input{width:100%;font-size:clamp(16px,2.8vw,18px);padding:12px 14px;border-radius:10px;border:1px solid var(--border)}
+
+/* 写真（どのサイズでも綺麗に） */
 .photos{margin-top:12px}
-.photo{border:1px dashed #bbb;border-radius:8px;min-height:150px;display:flex;align-items:center;justify-content:center;color:#666;background:#fff;background-size:cover;background-position:center}
-.photo.has{border-style:solid;color:transparent;aspect-ratio:16/9;max-width:900px;margin:0 auto;width:100%}
-@supports not (aspect-ratio: 16/9){ .photo.has{min-height:260px} }
-@media (min-width:1100px){ .photo{min-height:200px} }
+.photo{border:1px solid var(--border);border-radius:8px;aspect-ratio:16/9;overflow:hidden;background:#fff;display:block;width:100%}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photos .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+
+/* 地図（map.html） */
 .map-wrap{position:relative;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}
 .map-wrap img{display:block;width:100%;height:auto}
-.marker{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:rgba(19,83,137,.95);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-.marker:hover{opacity:.9}
-.coords{margin-top:8px;background:#f8fafc;border:1px dashed var(--border);padding:8px;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;white-space:pre-wrap}
+
+.marker{ /* 番号丸 */
+  position:absolute;transform:translate(-50%,-50%);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(19,83,137,.95); /* デフォルト（青） */
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:12px;text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,.18);
+  border:2px solid #fff;           /* 白枠で見やすく */
+  text-shadow:0 1px 2px rgba(0,0,0,.35);
+}
+
+/* ゾーンごとの色分け（assets/markers.json / zoneByNo と連動） */
+.marker[data-zone="青"]{ background:#1E90FF; }
+.marker[data-zone="桃"]{ background:#E91E63; }  /* ピンク */
+.marker[data-zone="紫"]{ background:#7E57C2; }
+.marker[data-zone="赤"]{ background:#EF4444; }
+.marker[data-zone="橙"]{ background:#F59E0B; }
+
+.coords{margin-top:8px;background:#f8fafc;border:1px dashed var(--border);padding:8px;border-radius:8px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;white-space:pre-wrap}
+
+/* バッジ（救急車/ストレッチャー） */
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{background:#eef2ff;color:#1e3a8a;border:1px solid #c7d2fe;border-radius:9999px;padding:6px 10px;font-size:12px}
+
+/* フッタ */
 footer.smallcopy{margin-top:20px;color:#6b7280;font-size:12px}

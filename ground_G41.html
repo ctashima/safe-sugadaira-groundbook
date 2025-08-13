@@ -14,7 +14,7 @@
 
   <title>第41番グラウンド</title>
 
-  <!-- テーマ初期化 + theme-color の自動切替 -->
+  <!-- テーマ初期化 + theme-color 切替 -->
   <script>
   (function(){
     const isSafe = new URLSearchParams(location.search).get('theme') === 'safe';
@@ -35,17 +35,20 @@
 
   <h1>第41番グラウンド</h1>
 
+  <!-- ゾーン/所有者/目安（順番固定） -->
   <div class="kv">
     <div class="chip">ゾーン：桃</div>
     <div class="chip">所有者：菅平国際ホテルベルニナ</div>
     <div class="chip">目安：車約 3分</div>
   </div>
 
+  <!-- 現地メモ（推奨到達ルート + 駐車/転回/注意点の要約） -->
   <div class="section">
     <h3>現地メモ</h3>
     <p>入口2箇所。東側（裏手）からも進入可。北側は路肩狭い。</p>
   </div>
 
+  <!-- 地図・ナビ（オンライン専用リンク） -->
   <div class="section">
     <h3>地図・ナビ</h3>
     <p>
@@ -56,6 +59,7 @@
     <div class="note">※リンクはオンライン接続時のみ利用可能です。</div>
   </div>
 
+  <!-- 救急車・搬送可否（将来: バッジ/コメントをCSVから反映予定） -->
   <div class="section">
     <h3>救急車・搬送可否</h3>
     <div class="badges">
@@ -65,6 +69,7 @@
     <div class="note">コメント例：入口の幅員、勾配、転回スペース、施錠有無 など</div>
   </div>
 
+  <!-- 救急車アクセス図（大きく見たい時はクリックで原寸） -->
   <div class="section">
     <h3>救急車アクセス図</h3>
     <a class="photo" href="./assets/ems_maps/G41.jpg" target="_blank" rel="noopener">
@@ -72,6 +77,7 @@
     </a>
   </div>
 
+  <!-- 写真（入口/駐車） -->
   <div class="section photos">
     <h3>写真</h3>
     <div class="grid2">
